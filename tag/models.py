@@ -10,12 +10,12 @@ class Tag(models.Model):
 
 class TagItem(models.Model):  # Generic relationship
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    object = models.ForeignKey(
+    taged_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE)  # keep reference to particular object(model)
 
-    object_id = models.PositiveIntegerField() # keep id of particular model
-    content_object = GenericForeignKey() # give us actual object in database 
+    taged_id = models.PositiveIntegerField() # keep id of particular model
+    content_object = GenericForeignKey('taged_type', 'taged_id') # give us actual object in database 
     
 
 ### for making a Generic relation ship ###
