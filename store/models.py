@@ -14,7 +14,10 @@ class Collection(models.Model):
     featured_product = models.ForeignKey('Product',
                                          on_delete=models.SET_NULL,
                                          null=True)
-
+    class Meta:
+        ordering = ['title']
+    def __str__(self) -> str :
+        return self.title
 
 class Product(models.Model):
     title = models.CharField(max_length=255, null=False, unique=True)
@@ -26,7 +29,8 @@ class Product(models.Model):
     collection_id = models.ForeignKey(Collection, on_delete=models.PROTECT)
     promotions = models.ManyToManyField(Promotion)
 
-
+    def __str__(self) -> str:
+        return self.title
 class Customer(models.Model):
     MEMBERSHIP_CHOICES = [
         ('B', 'Bronze'),  # tuple 

@@ -60,3 +60,8 @@
 ### annotate field (query)
     from django.db.models import Value , F , Q
     - [model].objects.annotate(new=Value('new id'))
+
+### calling function (db function)    
+    ------- from django.db.models import Func , Value , F
+    - [models].objects.annotate(Func(*columns, function='db_function_name'))
+    
