@@ -1,6 +1,7 @@
 from operator import mod
 from turtle import title
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 # Create your models here.
@@ -14,23 +15,28 @@ class Collection(models.Model):
     featured_product = models.ForeignKey('Product',
                                          on_delete=models.SET_NULL,
                                          null=True)
+
     class Meta:
-        ordering = ['title']
-    def __str__(self) -> str :
+        ordering = ['id']
+
+    def __str__(self) -> str:
         return self.title
+
 
 class Product(models.Model):
     title = models.CharField(max_length=255, null=False, unique=True)
     slug = models.SlugField()
     description = models.TextField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(0.001)])
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection_id = models.ForeignKey(Collection, on_delete=models.PROTECT)
-    promotions = models.ManyToManyField(Promotion)
+    promotions = models.ManyToManyField(Promotion, blank=True)
 
     def __str__(self) -> str:
         return self.title
+
+
 class Customer(models.Model):
     MEMBERSHIP_CHOICES = [
         ('B', 'Bronze'),  # tuple 
@@ -41,7 +47,7 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=255, null=False)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=255)
-    birth_date = models.DateField(null=True)
+    birth_date = models.DateField(null=True, blank=True)
     membership = models.CharField(max_length=1,
                                   choices=MEMBERSHIP_CHOICES,
                                   default='B')
