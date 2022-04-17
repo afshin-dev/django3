@@ -30,7 +30,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(0.001)])
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
-    collection_id = models.ForeignKey(Collection, on_delete=models.PROTECT)
+    collections = models.ForeignKey(Collection, on_delete=models.PROTECT)
     promotions = models.ManyToManyField(Promotion, blank=True)
 
     def __str__(self) -> str:

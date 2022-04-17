@@ -34,11 +34,11 @@ class ProductAdmin(admin.ModelAdmin):
         'price',
         'inventory',
         'inventory_status',
-        'collection_id',
+        'collections',
     ]
     list_editable = ['price']
     search_fields = ['title']
-    list_filter = ['collection_id', PriceFilter]
+    list_filter = ['collections', PriceFilter]
 
     def inventory_status(self, product) -> str:
         return 'low' if product.inventory < 10 else 'ok'
