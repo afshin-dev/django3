@@ -38,6 +38,7 @@ class Product(models.Model):
 
 
 class Customer(models.Model):
+    # outside_interface = [first_name, last_name, birth_date, membership]
     MEMBERSHIP_CHOICES = [
         ('B', 'Bronze'),  # tuple 
         ('S', 'Silver'),  # tuple 

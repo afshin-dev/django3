@@ -1,0 +1,17 @@
+
+POST http://localhost:8000/store/collections
+Content-Type: application/json
+
+{
+  "title" : "some"
+}
+###
+
+GET http://localhost:8000/store/collections
+
+
+
+
+
+
+
