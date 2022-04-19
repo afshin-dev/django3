@@ -2,7 +2,7 @@ from operator import mod
 from turtle import title
 from django.db import models
 from django.core.validators import MinValueValidator
-
+from uuid import uuid4
 
 # Create your models here.
 class Promotion(models.Model):
@@ -71,6 +71,7 @@ class OrderItem(models.Model):
 
 
 class Cart(models.Model):
+    _id = models.UUIDField(primary_key=True, default=uuid4)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -78,7 +79,10 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
-
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['cart', 'product'],name="cartiitem_cart_product_unique")
+        ]
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
