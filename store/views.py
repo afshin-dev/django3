@@ -2,17 +2,17 @@ from urllib import response
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from django.db import connection
-from .models import Product, Collection
+from .models import Product, Collection, Customer
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from .serializers import CreateCollectionSerializer, ProductSerializer, CollectionSerializer, CreateCollectionSerializer
+from .serializers import CustomerSerializer ,CreateCollectionSerializer, ProductSerializer, CollectionSerializer, CreateCollectionSerializer
 from rest_framework import status
 from django.db.models.aggregates import Count
 from store import serializers
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, GenericAPIView
-from rest_framework.mixins import ListModelMixin,UpdateModelMixin
+from rest_framework.mixins import ListModelMixin,CreateModelMixin
 # Create your views here.
 
 
@@ -74,3 +74,13 @@ def product_detail(request: Request, id: str) -> Response:
                         status=status.HTTP_406_NOT_ACCEPTABLE)
     serializer = ProductSerializer(product, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CustomerMixin(GenericAPIView, ListModelMixin, CreateModelMixin):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+    def get(self, request:Request) -> Response:
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)    
