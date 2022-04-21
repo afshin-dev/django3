@@ -76,9 +76,10 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart,on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(0.001)], blank=True)
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['cart', 'product'],name="cartiitem_cart_product_unique")

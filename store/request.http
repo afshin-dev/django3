@@ -9,7 +9,12 @@ Content-Type: application/json
 
 GET http://localhost:8000/store/collections
 
+###
 
+POST http://localhost:8000/store/products/ 
+Content-Type: application/json
+
+{"title": "ho", "price"  : "34.3","description": "very good ho","inventory" : "4","collections": 8}
 
 
 
